@@ -7,4 +7,7 @@ require (
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0
+	k8s.io/client-go v0.22.0 // indirect
+	k8s.io/api v0.22.0
+	k8s.io/apimachinery v0.22.0
 )
