@@ -1,5 +1,13 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/quickstart-image', '.' ]
-images:
-- 'gcr.io/$PROJECT_ID/quickstart-image'
+- name: gcr.io/cloud-builders/docker
+  args: 
+    - build
+    - -t
+    - gcr.io/$PROJECT_ID/${_EXAMPLE_IMAGE_PATH}/${_EXAMPLE_IMAGE_NAME}:${_EXAMPLE_IMAGE_TAG}
+    - .
+images: 
+  - gcr.io/$PROJECT_ID/${_EXAMPLE_IMAGE_PATH}/${_EXAMPLE_IMAGE_NAME}:${_EXAMPLE_IMAGE_TAG}
+substitutions:
+  _EXAMPLE_IMAGE_TAG: '0.0.1'
+  _EXAMPLE_IMAGE_NAME: 'client'
+  _EXAMPLE_IMAGE_PATH: test/example
