@@ -22,6 +22,7 @@ type User struct {
 func main() {
 	http.HandleFunc("/", login)
 	http.HandleFunc("/landing", landing)
+	http.HandleFunc("/dashboard", dashboard)
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -54,7 +55,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		}
 		token := generateJWT(details.Username)
 		setJwtCookie(token, w, r)
-		http.Redirect(w, r, "/landing", http.StatusSeeOther)
+		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 	}
 
 }
@@ -76,6 +77,30 @@ func landing(w http.ResponseWriter, r *http.Request) {
 
 	//re-direct upon succesful log-in
 	fmt.Println("starting landing page")
+	for _, cookie := range r.Cookies() {
+		fmt.Print("Cookie User: ")
+		fmt.Println(w, cookie.Name)
+		readJWT(cookie.Name)
+	}
+}
+
+func dashboard(w http.ResponseWriter, r *http.Request) {
+	//for _, cookie := range r.Cookies() {
+	cookie := r.Cookies()[0]
+	if cookie != nil {
+		fmt.Print("Cookie User: ")
+		fmt.Println(w, cookie.Name)
+		readJWT(cookie.Name)
+	} else {
+		http.Error(w, "Page Requires Authentication", http.StatusMethodNotAllowed)
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles("templates/dashboard.html"))
+	tmpl.Execute(w, nil)
+
+	//re-direct upon succesful log-in
+	fmt.Println("starting dashboard")
 	for _, cookie := range r.Cookies() {
 		fmt.Print("Cookie User: ")
 		fmt.Println(w, cookie.Name)

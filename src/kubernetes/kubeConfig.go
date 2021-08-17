@@ -17,7 +17,15 @@ func main() {
 	//loading rules
 	//running from container
 	//pulls deployment and runs container
-	//
+
+	//     req := k.clientset.CoreV1().RESTClient().Post().Resource("pods").Name(args.ContainerId).Namespace(k.namespace).SubResource("exec").Param("container", CONTAINER_NAME)
+	//POST --> http post request from rest o methods
+	//name sets name of resource to access
+	//namespace --> applies namespace scope to reqyes
+	//param --> creates query parameter within string
+	//https://stackoverflow.com/questions/68074036/stream-output-from-remote-kubernetes-command-with-golang-client
+	//https://pkg.go.dev/k8s.io/client-go/rest#RESTClient.Post
+
 	/*
 		rules := clientcmd.NewDefaultClientConfigLoadingRules()
 		kubeconfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(rules, &clientcmd.ConfigOverrides{})
@@ -109,16 +117,31 @@ func CreateNamespace(namespace string) {
 			Name: "my-new-namespace",
 		},
 	}
+
 	clientset.CoreV1().Namespaces().Create(context.Background(), nsName, metav1.CreateOptions{})
 	return
 }
 
-/*
-func (c *Client) DeleteNamespace(namespace string) error {
-	return c.Clientset.v1().Namespaces().Delete(namespace, &metav1.DeleteOptions{})
+func DeleteNamespace(ns string) {
+	config, err := rest.InClusterConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	clientset, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		panic(err)
+	}
+	clientset.CoreV1().Namespaces().Delete(context.Background(), ns, metav1.DeleteOptions{})
+	return
 }
 
+/*
 func (c *Client) getUserNamespace(user string) error {
+		err := clientset.CoreV1().Namespaces().Delete(ns, &metav1.DeleteOptions{})
+
+		Expect(err).NotTo(HaveOccurred())
+
 	return
 }
 */
