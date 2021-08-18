@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubekiosk
+  labels:
+    app: kubekiosk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubekiosk
+  template:
+    metadata:
+      labels:
+        app: kubekiosk
+    spec:
+      serviceAccount: kubekiosk
+      serviceAccountName: kubekiosk
+      containers:
+      - name: kubekiosk
+        image: gcr.io/innovspace-jackl-cs-11247/kubekiosk:30de50994c05ffc9027548d1a6923fd0482ebac5
