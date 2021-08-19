@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kubekiosk
+
+resources:
+- manifests/service-account.yaml
+- manifests/rbac.yaml
+- manifests/deployment.yaml
+- manifests/service.yaml
