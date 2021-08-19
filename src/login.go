@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"kubernetes"
 )
 
 type userLogin struct {
@@ -106,4 +107,9 @@ func dashboard(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(w, cookie.Name)
 		readJWT(cookie.Name)
 	}
+
+	client := kubernetes.clientConfig.kubeClient{"","",""}
+
+	client.connectClient()
+
 }
